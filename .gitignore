@@ -1,0 +1,6 @@
+CVS/
+*.d
+*.o
+*.slo
+*.dylib
+*.a

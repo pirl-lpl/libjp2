@@ -1,0 +1,99 @@
+#	UA HiRISE libPDS_JP2
+#
+#	gmake syntax
+#
+#	CVS ID: $Id: Makefile_JP2_Reader,v 1.11 2012/09/19 00:42:36 castalia Exp $
+
+SUBSYSTEM				=	HiView
+TITLE					=	$(SUBSYSTEM) - lib$(LIBRARY)
+R := R
+MAKEFILE_REVISION		:=	$Revision: 1.11 $
+
+PROJECT_ROOT			=	../..
+
+64_BIT_BUILDS			=	true
+64_BIT_ONLY				=	true
+NO_CONFIG_DIR			=	true
+NO_DATA_DIR				=	true
+NO_LOGS_DIR				=	true
+
+#	The library:
+
+LIBRARY					=	JP2_Reader
+
+LIBRARY_SOURCES			:=	JP2_Metadata.cc \
+							JP2_Reader.cc \
+							JP2_Exception.cc
+
+#	Libraries:
+
+#	idaeim PVL libraries.
+PVL_INCLUDE				=	-I$(IDAEIM_ROOT)/include
+PVL_LIBRARY				=	-L$(IDAEIM_ROOT)/lib \
+								-lPVL$(64) \
+								-lString$(64) \
+								-lidaeim$(64)
+
+#	PIRL C++ class library.
+PIRL_INCLUDE			=	-I$(PIRL_ROOT)/include
+PIRL_LIBRARY			=	-L$(PIRL_ROOT)/lib \
+								-lPIRL++$(64)
+
+#	Kakadu JPEG2000 libraries.
+#		Uncomment the following line to use the Kakadu library
+#		for the JP2_Reader::processing_units function implementation.
+KAKADU					?=	KAKADU
+KAKADU_SUPPORT			=	-DINCLUDE_KAKADU
+KAKADU_INCLUDE			=	-I$(KAKADU_ROOT)/include
+KAKADU_LIBRARY			=	-L$(KAKADU_ROOT)/lib \
+								-lkdu$(64)
+
+#	The maximum number of processing threads to use.
+#		If 0 multi-threaded rendering is disabled.
+#		If negative the number of threads is determined at runtime
+#			as the number of logical CPUs available to the system.
+THREAD_COUNT			=	-1
+
+LIBRARIES				+= 	$(PVL_LIBRARY) \
+							$(PIRL_LIBRARY) \
+							$($(KAKADU)_LIBRARY)
+
+#	Include files:
+#	>>> WARNING <<< The INCLUDE token is reserved by MSVC on MS/Windows.
+INCLUDES				=	$(PVL_INCLUDE) \
+							$(PIRL_INCLUDE) \
+							$($(KAKADU)_INCLUDE)
+
+
+#	Targets:
+
+all:
+.all:				.libraries
+
+#	DEBUG
+debug:				all
+
+#	Installation:
+
+.install:			.headers_install \
+					.bin_install
+
+.bin_install:		.libraries_install
+
+
+#	Project Makefile configuration.
+include				$(PROJECT_ROOT)/Build/Makefile.conf
+
+#	Preprocessor flags:
+ifneq ($(strip $(64_BIT_BUILDS)),)
+CPPFLAGS 			+=	-D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64
+endif
+
+
+JP2_Reader.obj$(64):	CPPFLAGS	+=	$($(KAKADU)_SUPPORT) \
+										-DTHREAD_COUNT=$(THREAD_COUNT)
+JP2_Reader.o$(64):		CPPFLAGS	+=	$($(KAKADU)_SUPPORT) \
+										-DTHREAD_COUNT=$(THREAD_COUNT)
+JP2_Reader.slo$(64):	CPPFLAGS	+=	$($(KAKADU)_SUPPORT) \
+										-DTHREAD_COUNT=$(THREAD_COUNT)
+
