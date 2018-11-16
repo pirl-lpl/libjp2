@@ -418,6 +418,12 @@ if (JPEG2000_Codestream.exists ())
 	#if ((DEBUG) & DEBUG_OPEN)
 	clog << "     destroy existing JPEG2000_Codestream" << endl;
 	#endif
+  if (Thread_Group)
+    {
+			//	Ensure shutdown of all thread processing.
+			Thread_Group->cs_terminate (JPEG2000_Codestream);
+    }
+
 	JPEG2000_Codestream.destroy ();
 	}
 if (JP2_Source.exists ())
@@ -686,7 +692,7 @@ for (int
 			<< "-bit "
 		<< (Channel_Mapping.default_rendering_signed[channel]
 			? "" : "un") << "signed"
-		<< (Channel_Mapping.palette[channel]
+		<< (Channel_Mapping.fix16_palette[channel]
 			? ", LUT-ed" : "") << endl;
 	#endif
 	if (minimum_size.x > size.x)
@@ -990,7 +996,10 @@ if (resolution != Resolution_Level)
 		//	Region of interest on full resolution grid (NULL means all).
 		NULL,
 		//	All original codestream components remain visible.
-		KDU_WANT_OUTPUT_COMPONENTS
+		KDU_WANT_OUTPUT_COMPONENTS,
+
+      // TODO veryify conditions in documentation for kdu_region_decompressor
+      Thread_Group
 		);
 	changed = true;
 	}
@@ -1017,7 +1026,7 @@ if (changed ||
 
 	//	Apply the selected resolution level and region.
 	JPEG2000_Codestream.apply_input_restrictions
-		(0, 0, resolution - 1, 0, &selection, KDU_WANT_OUTPUT_COMPONENTS);
+		(0, 0, resolution - 1, 0, &selection, KDU_WANT_OUTPUT_COMPONENTS, Thread_Group);
 
 	//	Set the effective region on the full resolution grid.
 	Image_Region = static_cast<const Rectangle&>(selection);
@@ -1067,7 +1076,8 @@ if (! Thread_Group &&
 	#endif
 	Thread_Group = new kdu_thread_env ();
 	Thread_Group->create ();	//	Owner thread.
-	for (unsigned int
+
+  for (auto
 			count = 1;
 			count < Thread_Count;
 			count++)
@@ -1076,6 +1086,29 @@ if (! Thread_Group &&
 	#if ((DEBUG) & DEBUG_RENDER)
 	clog << "    Created  " << Thread_Count << " processing threads." << endl;
 	#endif
+
+  Master_Queue = new kdu_thread_queue ();
+try {
+  #if ((DEBUG) & DEBUG_RENDER)
+	auto attached =
+	#endif
+  Thread_Group->attach_queue(Master_Queue, NULL, "CHANGEME", 0, KDU_THREAD_QUEUE_SAFE_CONTEXT);
+  #if ((DEBUG) & DEBUG_RENDER)
+	clog << (attached ? "Successfully created " : "Failed to create ") << "a thread queue" << endl;
+	#endif
+} catch (kdu_exception except)
+  	{
+  	ostringstream
+  		message;
+  	message
+  		<< "Couldn't attach a thread queue." << endl
+  		<< Kakadu_error_message (except);
+  	throw JP2_Exception (message.str (), ID);
+  	}
+
+   #if ((DEBUG) & DEBUG_RENDER)
+   clog << "    Using default thread queues" << endl;
+   #endif
 	}
 #if ((DEBUG) & DEBUG_RENDER)
 else
@@ -1134,6 +1167,11 @@ if (JPEG2000_Codestream.exists ())
 	#if ((DEBUG) & (DEBUG_OPEN | DEBUG_CONSTRUCTORS))
 	clog << "    destroy the JPEG2000_Codestream" << endl;
 	#endif
+  if (Thread_Group)
+    {
+			//	Ensure shutdown of all thread processing.
+			Thread_Group->cs_terminate (JPEG2000_Codestream);
+    }
 	JPEG2000_Codestream.destroy ();
 	}
 #if ((DEBUG) & (DEBUG_OPEN | DEBUG_CONSTRUCTORS))
@@ -1618,8 +1656,8 @@ while (continue_rendering)
 		false,
 		//	Multi-threaded processing environment (single threaded if NULL).
 		Thread_Group,
-		//	Thread queue.
-		NULL
+
+    Master_Queue
 		);}
 	catch (kdu_exception except)
 		{
@@ -1747,6 +1785,18 @@ while (continue_rendering)
 					pixel_bits,
 					false
 					);
+          /*
+          if (Thread_Group)
+            {
+              #if ((DEBUG) & DEBUG_RENDER)
+              clog << "   Waiting for threads to complete..." << endl;
+              #endif
+                    //	Ensure completion of all thread processing.
+            if(!Thread_Group->join (Master_Queue, false, &kdu_exception_value))
+            {
+            throw JP2_Exception("Thread join failed");
+            }
+          }*/
 			}
 		catch (kdu_exception except)
 			{
@@ -1777,9 +1827,7 @@ while (continue_rendering)
 			throw JP2_Exception (message.str (), ID);
 			}
 
-		if (Thread_Group)
-			//	Ensure completion of all thread processing.
-			Thread_Group->join (NULL);
+
 
 		Bytes_Rendered +=
 			region_rendered.area () * bands * pixel_bytes;
@@ -1855,7 +1903,9 @@ while (continue_rendering)
 		}	//	Decompression.
 
 	//	Stop the decompressor.
-	if (! Decompressor.finish (&kdu_exception_value))
+  Thread_Group->cs_terminate(JPEG2000_Codestream, &kdu_exception_value);
+
+	if (! Decompressor.finish (&kdu_exception_value, false))
 		{
 		close ();
 		delete[] image_data;
