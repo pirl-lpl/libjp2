@@ -341,7 +341,7 @@ clog << "    Copy - " << image_bands () << " band, " << image_size () << endl;
 }
 
 
-JP2_JPIP_Reader::~JP2_JPIP_Reader ()
+JP2_JPIP_Reader::~JP2_JPIP_Reader () throw()
 {
 #if (DEBUG & DEBUG_CONSTRUCTORS)
 clog << ">>> ~JP2_JPIP_Reader @ " << (void*)this << endl
@@ -832,7 +832,7 @@ if (! reconnect ())
 		<< Reconnection_Failure_Message;
 	throw JPIP_Disconnected (message.str (), ID);
 	}
-	
+
 bool
 	reset = JP2_File_Reader::resolution_and_region (resolution, region);
 if (reset &&

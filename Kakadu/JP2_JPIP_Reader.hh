@@ -40,7 +40,7 @@ namespace HiRISE
 namespace Kakadu
 {
 //	Forward references.
-class JPIP_Client_Notifier;
+struct JPIP_Client_Notifier;
 class JP2_Box;
 
 /**	A <i>JP2_JPIP_Reader</i> reads image pixel data from a JPEG2000 JP2
@@ -101,7 +101,7 @@ explicit JP2_JPIP_Reader (const std::string& source);
 */
 JP2_JPIP_Reader (const JP2_JPIP_Reader& JP2_JPIP_reader);
 
-virtual ~JP2_JPIP_Reader ();
+virtual ~JP2_JPIP_Reader () throw();
 
 /*==============================================================================
 	Reader
@@ -599,7 +599,7 @@ virtual int data_acquisition (Acquired_Data* acquired_data = NULL);
 protected:
 
 //!	The asynchronous JPIP_Client event notifier.
-friend class JPIP_Client_Notifier;
+friend struct JPIP_Client_Notifier;
 //std::shared_ptr<JPIP_Client_Notifier>
 PIRL::Reference_Counted_Pointer<JPIP_Client_Notifier>
 	Notifier;
