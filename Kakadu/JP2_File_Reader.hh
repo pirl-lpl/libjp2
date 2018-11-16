@@ -628,6 +628,9 @@ mutable kdu_supp::kdu_region_decompressor
 kdu_core::kdu_thread_env
 	*Thread_Group;
 
+kdu_core::kdu_thread_queue
+  *Master_Queue;
+  
 /*	Kakadu error message queue.
 
 	Note: The message queue object is thread safe.
