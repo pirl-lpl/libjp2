@@ -37,6 +37,8 @@ using std::ostringstream;
 using std::endl;
 #include	<stdexcept>
 using std::exception;
+#include <memory>
+using std::shared_ptr;
 
 #ifdef _WIN32
 #include "Windows.h"	//	For Sleep system function.
@@ -312,9 +314,9 @@ clog << ">-< JP2_JPIP_Reader @ " << (void*)this << endl
 	 << "    Copy @ " << (void*)(&JP2_JPIP_reader) << endl
 	 << "    source_name = " << JP2_JPIP_reader.source_name () << endl
 	 << "    JPIP_Client.reference_count = "
-	 	<< JPIP_Client.reference_count () << endl
+	 	<< JPIP_Client.use_count () << endl
 	 << "       Notifier.reference_count = "
-	 	<< Notifier.reference_count () << endl;
+	 	<< Notifier.use_count () << endl;
 #endif
 if (JP2_JPIP_reader.Server_Preferences)
 	Server_Preferences =
@@ -346,13 +348,13 @@ JP2_JPIP_Reader::~JP2_JPIP_Reader () throw()
 #if (DEBUG & DEBUG_CONSTRUCTORS)
 clog << ">>> ~JP2_JPIP_Reader @ " << (void*)this << endl
 	 << "    JPIP_Client.reference_count = "
-	 	<< JPIP_Client.reference_count () << endl
+	 	<< JPIP_Client.use_count () << endl
 	 << "       Notifier.reference_count = "
-	 	<< Notifier.reference_count () << endl;
+	 	<< Notifier.use_count () << endl;
 #endif
 JP2_JPIP_Reader::reset ();
 
-if (Notifier.reference_count () == 1)
+if (Notifier.use_count () == 1)
 	{
 	#if (DEBUG & DEBUG_CONSTRUCTORS)
 	clog << "    de-register the Notifier from the JPIP_Client." << endl;
@@ -361,7 +363,7 @@ if (Notifier.reference_count () == 1)
 	JPIP_Client->install_notifier (NULL);
 	}
 
-if (JPIP_Client.reference_count () == 1)
+if (JPIP_Client.use_count () == 1)
 	{
 	#if (DEBUG & DEBUG_CONSTRUCTORS)
 	clog << "    shutdown the JPIP client" << endl;
@@ -473,7 +475,7 @@ if (is_shutdown ())
 			copies of the initial object where the JPIP_Client is
 			created and initialized. That is being done here.
 		*/
-		JPIP_Client = new kdu_client ();
+		JPIP_Client = std::shared_ptr<kdu_supp::kdu_client>(new kdu_client ());
 		}
 
 	if (! Notifier)
@@ -487,7 +489,7 @@ if (is_shutdown ())
 		#if ((DEBUG) & DEBUG_OPEN)
 		clog << "    construct a JPIP_Client_Notifier" << endl;
 		#endif
-		Notifier = new JPIP_Client_Notifier ();
+		Notifier = std::shared_ptr<JPIP_Client_Notifier>(new JPIP_Client_Notifier ());
 		}
 
 	if (! Server_Preferences)
@@ -548,7 +550,7 @@ if (is_shutdown ())
 	#if ((DEBUG) & DEBUG_OPEN)
 	clog << "    Installing the JPIP_Client_Notifier" << endl;
 	#endif
-	JPIP_Client->install_notifier (Notifier);
+	JPIP_Client->install_notifier (Notifier.get());
 	}
 else
 	{
@@ -611,9 +613,9 @@ else
 //	Attach this object's data bin cache manager object to the JPIP client.
 #if ((DEBUG) & DEBUG_OPEN)
 clog << "    attach the Data_Bin_Cache to the JPIP_Client @ "
-		<< (void*)JPIP_Client << endl;
+		<< JPIP_Client << endl;
 #endif
-Data_Bin_Cache.attach_to (JPIP_Client);
+Data_Bin_Cache.attach_to (JPIP_Client.get());
 
 if (! JP2_Stream.exists ())
 	{

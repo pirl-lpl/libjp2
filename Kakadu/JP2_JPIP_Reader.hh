@@ -25,7 +25,7 @@ Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA.
 #define _JP2_JPIP_Reader_
 
 #include	"JP2_File_Reader.hh"
-#include	"Reference_Counted_Pointer.hh"
+//#include	"Reference_Counted_Pointer.hh"
 
 //	Kakadu
 #include	"kdu_client.h"
@@ -600,13 +600,13 @@ protected:
 
 //!	The asynchronous JPIP_Client event notifier.
 friend struct JPIP_Client_Notifier;
-//std::shared_ptr<JPIP_Client_Notifier>
-PIRL::Reference_Counted_Pointer<JPIP_Client_Notifier>
+std::shared_ptr<JPIP_Client_Notifier>
+//PIRL::Reference_Counted_Pointer<JPIP_Client_Notifier>
 	Notifier;
 
 //!	JPIP client.
-//std::shared_ptr<kdu_supp::kdu_client>
-PIRL::Reference_Counted_Pointer<kdu_supp::kdu_client>
+std::shared_ptr<kdu_supp::kdu_client>
+//PIRL::Reference_Counted_Pointer<kdu_supp::kdu_client>
 	JPIP_Client;
 
 //!	JPIP connection channel request queue ID.
