@@ -1537,8 +1537,8 @@ clog << ">>> JP2_Metadata::image_header_parameters:" << endl
 #endif
 Size_2D
 	image_size
-		(get_unsigned_integer (box->name () + ' ' + HEIGHT_PARAMETER),
-		 get_unsigned_integer (box->name () + ' ' + WIDTH_PARAMETER));
+		(get_unsigned_integer (box->name () + ' ' + WIDTH_PARAMETER),
+		 get_unsigned_integer (box->name () + ' ' + HEIGHT_PARAMETER));
 unsigned int
 	image_bands =
 		get_unsigned_short_integer
