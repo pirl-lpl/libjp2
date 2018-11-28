@@ -1535,10 +1535,11 @@ clog << ">>> JP2_Metadata::image_header_parameters:" << endl
 	 << "    Data_Buffer @ " << (void*)Data_Buffer << endl
 	 << "    Data_Amount = " << Data_Amount << endl;
 #endif
-Size_2D
-	image_size
-		(get_unsigned_integer (box->name () + ' ' + WIDTH_PARAMETER),
-		 get_unsigned_integer (box->name () + ' ' + HEIGHT_PARAMETER));
+//Size_2D
+//	image_size
+		auto height = get_unsigned_integer (box->name () + ' ' + HEIGHT_PARAMETER),
+		 width = get_unsigned_integer (box->name () + ' ' + WIDTH_PARAMETER);
+Size_2D image_size (width, height);
 unsigned int
 	image_bands =
 		get_unsigned_short_integer
