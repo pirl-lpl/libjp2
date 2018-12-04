@@ -30,12 +30,11 @@ Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA.
 #include "Dimensions.hh"
 
 //	Forward references.
-namespace idaeim {
-namespace PVL {
+namespace idaeim::PVL {
 class Parameter;
 class Aggregate;
 class Array;
-}}
+}
 
 namespace UA::HiRISE
 {
