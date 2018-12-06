@@ -2,7 +2,7 @@ project(libJP2)
 
 cmake_minimum_required(VERSION 3.12)
 
-set(CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 17)
 
 if(MSVC)
    add_compile_options(/W4 /WX)
@@ -35,8 +35,8 @@ find_path(MADMIND_INCLUDE NAMES "PVL.hh" PATHS ${MADMIND_ROOT}/include NO_DEFAUL
 add_subdirectory(Kakadu)
 add_subdirectory(tests)
 
-add_library(JP2 SHARED JP2.cc JP2_Utilities.cc)
-add_library(JP2_Reader SHARED JP2_Metadata.cc JP2_Reader.cc JP2_Exception.cc)
+add_library(JP2 STATIC JP2.cc JP2_Utilities.cc)
+add_library(JP2_Reader STATIC JP2_Metadata.cc JP2_Reader.cc JP2_Exception.cc)
 
 include_directories(${CMAKE_SOURCE_DIR} ${PIRL++_INCLUDE} ${KAKADU_INCLUDE} ${MADMIND_INCLUDE})
 target_link_libraries(JP2 KDU ${KAKADU} ${KAKADU_AUX})

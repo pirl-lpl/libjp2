@@ -1,5 +1,4 @@
 
-# what to build
 add_executable(test_JP2_Reader test_JP2_Reader.cc)
 add_executable(test_JPIP_Connect test_JPIP_Connect.cc)
 include_directories(${PIRL++_INCLUDE} ${KAKADU_INCLUDE} ${MADMIND_INCLUDE} ".." "../Kakadu")
