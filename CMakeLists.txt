@@ -58,6 +58,7 @@ find_path(MADMIND_INCLUDE NAMES "PVL.hh" PATHS ${MADMIND_ROOT}/include NO_DEFAUL
 assert_found(KAKADU KAKADU_AUX PIRL++ PIRL++_INCLUDE KAKADU_INCLUDE MADMIND MADMIND_INCLUDE)
 
 add_subdirectory(Kakadu)
+add_subdirectory(tests)
 
 add_library(JP2 SHARED JP2.cc JP2_Utilities.cc)
 add_library(JP2_Reader SHARED JP2_Metadata.cc JP2_Reader.cc JP2_Exception.cc)
