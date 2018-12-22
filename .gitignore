@@ -4,3 +4,4 @@ CVS/
 *.slo
 *.dylib
 *.a
+/.vs
