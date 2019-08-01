@@ -1,0 +1,5 @@
+To build from the command line, specify the path to a compiled Kakadu directory, e.g.
+
+cmake . -DKAKADU_ROOT=../kakadu-7.A.5
+
+To build in MSVC, specify the same variable in CMakeSettings.json
