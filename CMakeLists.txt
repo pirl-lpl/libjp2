@@ -41,6 +41,9 @@ if(MSVC)
 	include_directories("C:/Users/guyma/source/repos/idaeim2")
 endif()
 
+# TODO FIXME slightly less gross hack needed for MacOS
+include_directories(${PROJECT_SOURCE_DIR})
+
 target_link_libraries(JP2 KDU KDU_AUX PIRL::PIRL++)
 target_link_libraries(JP2_Reader KDU KDU_AUX idaeim::PVL PIRL::PIRL++)
 
