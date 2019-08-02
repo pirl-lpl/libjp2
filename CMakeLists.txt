@@ -39,7 +39,7 @@ add_library(JP2_Reader STATIC JP2_Metadata.cc JP2_Reader.cc JP2_Exception.cc)
 
 # TODO FIXME gross hack
 if(MSVC)
-	include_directories("C:/Users/guyma/source/repos/idaeim2")
+	#include_directories("C:/Users/guyma/source/repos/idaeim2")
 endif()
 
 # TODO FIXME slightly less gross hack needed for MacOS
@@ -49,7 +49,7 @@ target_link_libraries(JP2 KDU KDU_AUX PIRL::PIRL++)
 target_link_libraries(JP2_Reader KDU KDU_AUX idaeim::PVL PIRL::PIRL++)
 
 add_subdirectory(Kakadu)
-add_subdirectory(tests)
+#add_subdirectory(tests)
 
 set(CMAKE_EXPORT_PACKAGE_REGISTRY ON)
 #export(TARGETS JP2 JP2_Reader KakaduImplementation test_JP2_Reader test_JPIP_Connect NAMESPACE UA::HiRISE:: FILE JP2-config.cmake)
