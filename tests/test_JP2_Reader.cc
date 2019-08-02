@@ -36,7 +36,7 @@ using UA::HiRISE::bytes_of_bits;
 using namespace PIRL;
 
 //	idaeim PVL
-#include	"PVL.hh"
+#include	"PVL/PVL.hh"
 using idaeim::PVL::Aggregate;
 
 #include	<iostream>
