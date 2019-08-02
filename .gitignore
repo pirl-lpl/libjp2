@@ -11,3 +11,4 @@ Makefile
 *.a
 tests/test_JP2_Reader
 tests/test_JPIP_Connect
+out/
