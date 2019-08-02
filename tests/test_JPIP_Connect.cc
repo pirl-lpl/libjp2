@@ -5,7 +5,7 @@ using namespace std;
 #include "JP2_Exception.hh"
 using namespace UA::HiRISE;
 
-#include "JP2_JPIP_Reader.hh"
+#include "Kakadu/JP2_JPIP_Reader.hh"
 using namespace UA::HiRISE::Kakadu;
 
 int main (int argc, char  *argv[])

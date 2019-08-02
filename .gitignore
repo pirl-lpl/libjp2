@@ -1,7 +1,14 @@
 CVS/
+CMakeFiles/
+cmake_install.cmake
+CMakeCache.txt
+Makefile
+.vs/
 *.d
 *.o
 *.slo
 *.dylib
 *.a
-/.vs
+tests/test_JP2_Reader
+tests/test_JPIP_Connect
+out/
