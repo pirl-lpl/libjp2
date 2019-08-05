@@ -13,7 +13,7 @@ else()
 endif()
 
 # for FindKakadu.cmake
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR})
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR})
 
 find_package(PIRL 3.0.0 REQUIRED)
 find_package(idaeim 2.3.4 REQUIRED)
