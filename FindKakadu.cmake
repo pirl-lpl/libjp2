@@ -23,7 +23,7 @@ find_library(kdu_aux NAMES ${kdu_aux_name} PATHS ${kdu_lib_path} NO_DEFAULT_PATH
 
 include(FindPackageHandleStandardArgs)
 
-find_package_handle_standard_args(Kakadu DEFAULT_MSG kdu_lib kdu_inc)
+find_package_handle_standard_args(Kakadu DEFAULT_MSG kdu_lib kdu_aux kdu_inc)
 
 set(KAKADU_LIBRARIES ${kdu_lib} ${kdu_aux})
 set(KAKADU_INCLUDE_DIRS ${kdu_inc})
