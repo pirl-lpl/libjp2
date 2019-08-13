@@ -1,8 +1,8 @@
 set(KAKADU_VERSION 7A)
 
-set(kdu_lib_path "${KAKADU_ROOT}/lib/Linux-x86-64-gcc/" "${KAKADU_ROOT}/lib/Mac-x86-64-gcc/" "${KAKADU_ROOT}/../lib_x64/" "${KAKADU_ROOT}/../lib_x86/")
+set(kdu_lib_path "${Kakadu_Dir}/lib/Linux-x86-64-gcc/" "${Kakadu_Dir}/lib/Mac-x86-64-gcc/" "${Kakadu_Dir}/../lib_x64/" "${Kakadu_Dir}/../lib_x86/")
 
-set(kdu_inc_path "${KAKADU_ROOT}/managed/all_includes/")
+set(kdu_inc_path "${Kakadu_Dir}/managed/all_includes/")
 
 #message("Looking for Kakadu includes in ${kdu_inc_path}")
 
