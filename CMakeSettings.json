@@ -14,7 +14,7 @@
       "ctestCommandArgs": "",
       "variables": [
         {
-          "name": "KAKADU_ROOT",
+          "name": "Kakadu_Dir",
           "value": "${env.USERPROFILE}\\kakadu\\kakadu-7.A.7\\v7_A_7-00307L"
         }
       ]
