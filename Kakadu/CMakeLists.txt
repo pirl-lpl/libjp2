@@ -2,9 +2,10 @@
 add_library(objKakaduReaders OBJECT JP2_File_Reader.cc JP2_JPIP_Reader.cc JP2_Box.cc)
 set_target_properties(objKakaduReaders PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
-
 add_library(KakaduReaders SHARED $<TARGET_OBJECTS:objKakaduReaders>)
 add_library(KakaduReaders-static STATIC $<TARGET_OBJECTS:objKakaduReaders>)
+
+target_include_directories(KakaduReaders PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_SOURCE_DIR})
 
 target_link_libraries(objKakaduReaders JP2_Reader KDU KDU_AUX PIRL::PIRL++ idaeim::PVL)
 target_link_libraries(KakaduReaders JP2_Reader KDU KDU_AUX PIRL::PIRL++ idaeim::PVL)
