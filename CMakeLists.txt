@@ -79,6 +79,6 @@ add_subdirectory(Kakadu)
 #add_subdirectory(tests)
 
 set(CMAKE_EXPORT_PACKAGE_REGISTRY ON)
-export(TARGETS JP2 JP2_Reader JP2-static JP2_Reader-static KakaduReaders 
+export(TARGETS JP2 JP2_Reader JP2-static JP2_Reader-static KakaduReaders KakaduReaders-static
 	NAMESPACE UA::HiRISE:: FILE JP2-config.cmake) #test_JP2_Reader test_JPIP_Connect
 export(PACKAGE JP2)
