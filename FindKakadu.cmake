@@ -1,6 +1,6 @@
-set(KAKADU_VERSION 7A)
+set(KAKADU_VERSION 84)
 
-set(kdu_lib_path "${Kakadu_Dir}/lib/Linux-x86-64-gcc/" "${Kakadu_Dir}/lib/Mac-x86-64-gcc/" "${Kakadu_Dir}/../lib_x64/" "${Kakadu_Dir}/../lib_x86/")
+set(kdu_lib_path "${Kakadu_Dir}/lib/Linux-x86-64-gcc/" "${Kakadu_Dir}/lib/Mac-arm-64-gcc/" "${Kakadu_Dir}/lib/Mac-x86-64-gcc/" "${Kakadu_Dir}/../lib_x64/" "${Kakadu_Dir}/../lib_x86/")
 
 set(kdu_inc_path "${Kakadu_Dir}/managed/all_includes/")
 
