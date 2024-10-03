@@ -10,6 +10,10 @@ else()
    add_compile_options(-Wall)
 endif()
 
+if(APPLE)
+   include_directories(/usr/local/include ${PROJECT_SOURCE_DIR})
+endif()
+
 # for FindKakadu.cmake
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR})
 
@@ -34,7 +38,7 @@ target_link_libraries(objJP2 JP2_Reader KDU KDU_AUX PIRL::PIRL++)
 target_link_libraries(objJP2_Reader KDU KDU_AUX idaeim::PVL idaeim::Strings PIRL::PIRL++)
 
 # TODO FIXME needed for MacOS??
-include_directories(${PROJECT_SOURCE_DIR})
+# include_directories()
 
 add_library(JP2 SHARED $<TARGET_OBJECTS:objJP2>)
 add_library(JP2-static STATIC $<TARGET_OBJECTS:objJP2>)
