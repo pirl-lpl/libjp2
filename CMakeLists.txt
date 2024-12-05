@@ -1,15 +1,17 @@
-cmake_minimum_required(VERSION 3.11)
+cmake_minimum_required(VERSION 3.13)
 
 project(libJP2)
 
 set(CMAKE_CXX_STANDARD 17)
 
+# or set CMAKE_COMPILE_WARNING_AS_ERROR true
 if(MSVC)
    add_compile_options(/W4) # /WX for warnings as errors
 else()
-   add_compile_options(-Wall)
+   add_compile_options(-Wall) # -Werror for warnings as errors
 endif()
 
+# TODO this should come from the pirl++ import, i.e. ${CMAKE_INSTALL_INCLUDEDIR}
 if(APPLE)
    include_directories(/usr/local/include ${PROJECT_SOURCE_DIR})
 endif()
@@ -41,26 +43,22 @@ target_link_libraries(objJP2_Reader KDU KDU_AUX idaeim::PVL idaeim::Strings PIRL
 # include_directories()
 
 add_library(JP2 SHARED $<TARGET_OBJECTS:objJP2>)
-add_library(JP2-static STATIC $<TARGET_OBJECTS:objJP2>)
+add_library(JP2_static STATIC $<TARGET_OBJECTS:objJP2>)
 add_library(JP2_Reader SHARED $<TARGET_OBJECTS:objJP2_Reader>)
-add_library(JP2_Reader-static STATIC $<TARGET_OBJECTS:objJP2_Reader>)
+add_library(JP2_Reader_static STATIC $<TARGET_OBJECTS:objJP2_Reader>)
 
 if (WIN32)
-   set_target_properties(JP2-static PROPERTIES OUTPUT_NAME libJP2)
-   set_target_properties(JP2_Reader-static PROPERTIES OUTPUT_NAME libJP2_Reader)
+   set_target_properties(JP2_static PROPERTIES OUTPUT_NAME libJP2)
+   set_target_properties(JP2_Reader_static PROPERTIES OUTPUT_NAME libJP2_Reader)
 
    set_target_properties(JP2 PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
    set_target_properties(JP2_Reader PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
-   if(${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.13")
       target_link_options(JP2 PRIVATE "/MANIFEST:NO")
       target_link_options(JP2_Reader PRIVATE "/MANIFEST:NO")
-   else()
-      set(CMAKE_SHARED_LINKER_FLAGS "/MANIFEST:NO")
-   endif()
 else()
-   set_target_properties(JP2-static PROPERTIES OUTPUT_NAME JP2)
-   set_target_properties(JP2_Reader-static PROPERTIES OUTPUT_NAME JP2_Reader)
+   set_target_properties(JP2_static PROPERTIES OUTPUT_NAME JP2)
+   set_target_properties(JP2_Reader_static PROPERTIES OUTPUT_NAME JP2_Reader)
 endif()
 
 target_link_libraries(JP2_Reader idaeim::PVL idaeim::Strings idaeim::Utility PIRL::PIRL++)
@@ -68,10 +66,10 @@ target_link_libraries(JP2 JP2_Reader KakaduReaders)
 
 #
 # TODO currently we need to link using the static libraries, not the import libraries
-if(WIN32)
-   	add_custom_command(TARGET JP2 POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:JP2-static> JP2.lib)
-   	add_custom_command(TARGET JP2_Reader POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:JP2_Reader-static> JP2_Reader.lib)
-endif()
+#if(WIN32)
+#   	add_custom_command(TARGET JP2 POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:JP2-static> JP2.lib)
+#   	add_custom_command(TARGET JP2_Reader POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:JP2_Reader-static> JP2_Reader.lib)
+#endif()
 
 #include(GenerateExportHeader)
 #generate_export_header(JP2 EXPORT_FILE_NAME "JP2_Export.hh")
@@ -83,6 +81,6 @@ add_subdirectory(Kakadu)
 #add_subdirectory(tests)
 
 set(CMAKE_EXPORT_PACKAGE_REGISTRY ON)
-export(TARGETS JP2 JP2_Reader JP2-static JP2_Reader-static KakaduReaders KakaduReaders-static
+export(TARGETS JP2 JP2_Reader JP2_static JP2_Reader_static KakaduReaders KakaduReaders_static
 	NAMESPACE UA::HiRISE:: FILE JP2-config.cmake) #test_JP2_Reader test_JPIP_Connect
 export(PACKAGE JP2)
