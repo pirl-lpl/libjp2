@@ -36,7 +36,7 @@ using UA::HiRISE::bytes_of_bits;
 using namespace PIRL;
 
 //	idaeim PVL
-#include	"PVL/PVL.hh"
+#include	"PVL.hh"
 using idaeim::PVL::Aggregate;
 
 #include	<iostream>
@@ -208,7 +208,7 @@ if (list_descriptions)
 	<< "    Prints this usage description." << endl
 	<< endl;
 
-exit (exit_status); 
+exit (exit_status);
 }
 
 #if defined (DEBUG)
@@ -312,7 +312,7 @@ for (int
 		switch (toupper (arguments[count][1]))
 			{
 			case 'R':	//	Resolution.
-				if (++count == argument_count || 
+				if (++count == argument_count ||
 					arguments[count][0] == '-')
 					{
 					cout << "Missing resolution level." << endl
@@ -377,7 +377,7 @@ for (int
 
 			case 'I':	//	Input pathname.
 			case 'J':	//	JP2 pathname.
-				if (++count == argument_count || 
+				if (++count == argument_count ||
 					arguments[count][0] == '-')
 					{
 					cout << "Missing JP2 input file pathname." << endl
@@ -847,4 +847,3 @@ if (JP2_reader[1])
 
 exit (exit_status);
 }
-
