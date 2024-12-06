@@ -7,8 +7,8 @@ add_library(KakaduReaders_static STATIC $<TARGET_OBJECTS:objKakaduReaders>)
 
 #target_include_directories(KakaduReaders PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_SOURCE_DIR})
 
-target_link_libraries(objKakaduReaders JP2_Reader KDU KDU_AUX PIRL::PIRL++ idaeim::PVL)
-target_link_libraries(KakaduReaders JP2_Reader KDU KDU_AUX PIRL::PIRL++ idaeim::PVL)
+target_link_libraries(objKakaduReaders JP2_Reader KDU KDU_AUX PIRL++::PIRL++ idaeim::PVL)
+target_link_libraries(KakaduReaders JP2_Reader KDU KDU_AUX PIRL++::PIRL++ idaeim::PVL)
 
 if (WIN32)
    set_target_properties(objKakaduReaders PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)

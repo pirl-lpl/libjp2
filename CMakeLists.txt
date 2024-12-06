@@ -6,20 +6,20 @@ set(CMAKE_CXX_STANDARD 17)
 
 # or set CMAKE_COMPILE_WARNING_AS_ERROR true
 if(MSVC)
-   add_compile_options(/W4) # /WX for warnings as errors
+    add_compile_options(/W4) # /WX for warnings as errors
 else()
-   add_compile_options(-Wall) # -Werror for warnings as errors
+    add_compile_options(-Wall) # -Werror for warnings as errors
 endif()
 
 # TODO this should come from the pirl++ import, i.e. ${CMAKE_INSTALL_INCLUDEDIR}
 if(APPLE)
-   include_directories(/usr/local/include ${PROJECT_SOURCE_DIR})
+    include_directories(/usr/local/include ${PROJECT_SOURCE_DIR})
 endif()
 
 # for FindKakadu.cmake
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR})
 
-find_package(PIRL 3.0.0 REQUIRED)
+find_package(PIRL++ 3.0.0 REQUIRED)
 find_package(idaeim 2.3.4 REQUIRED)
 find_package(Kakadu REQUIRED)
 
@@ -36,8 +36,8 @@ add_library(objJP2_Reader OBJECT JP2_Metadata.cc JP2_Reader.cc JP2_Exception.cc)
 set_target_properties(objJP2 PROPERTIES POSITION_INDEPENDENT_CODE ON)
 set_target_properties(objJP2_Reader PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
-target_link_libraries(objJP2 JP2_Reader KDU KDU_AUX PIRL::PIRL++)
-target_link_libraries(objJP2_Reader KDU KDU_AUX idaeim::PVL idaeim::Strings PIRL::PIRL++)
+target_link_libraries(objJP2 JP2_Reader KDU KDU_AUX PIRL++::PIRL++)
+target_link_libraries(objJP2_Reader KDU KDU_AUX idaeim::PVL idaeim::Strings PIRL++::PIRL++)
 
 # TODO FIXME needed for MacOS??
 # include_directories()
@@ -48,20 +48,20 @@ add_library(JP2_Reader SHARED $<TARGET_OBJECTS:objJP2_Reader>)
 add_library(JP2_Reader_static STATIC $<TARGET_OBJECTS:objJP2_Reader>)
 
 if (WIN32)
-   set_target_properties(JP2_static PROPERTIES OUTPUT_NAME libJP2)
-   set_target_properties(JP2_Reader_static PROPERTIES OUTPUT_NAME libJP2_Reader)
+    set_target_properties(JP2_static PROPERTIES OUTPUT_NAME libJP2)
+    set_target_properties(JP2_Reader_static PROPERTIES OUTPUT_NAME libJP2_Reader)
 
-   set_target_properties(JP2 PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
-   set_target_properties(JP2_Reader PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
+    set_target_properties(JP2 PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
+    set_target_properties(JP2_Reader PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
-      target_link_options(JP2 PRIVATE "/MANIFEST:NO")
-      target_link_options(JP2_Reader PRIVATE "/MANIFEST:NO")
+    target_link_options(JP2 PRIVATE "/MANIFEST:NO")
+    target_link_options(JP2_Reader PRIVATE "/MANIFEST:NO")
 else()
-   set_target_properties(JP2_static PROPERTIES OUTPUT_NAME JP2)
-   set_target_properties(JP2_Reader_static PROPERTIES OUTPUT_NAME JP2_Reader)
+    set_target_properties(JP2_static PROPERTIES OUTPUT_NAME JP2)
+    set_target_properties(JP2_Reader_static PROPERTIES OUTPUT_NAME JP2_Reader)
 endif()
 
-target_link_libraries(JP2_Reader idaeim::PVL idaeim::Strings idaeim::Utility PIRL::PIRL++)
+target_link_libraries(JP2_Reader idaeim::PVL idaeim::Strings idaeim::Utility PIRL++::PIRL++)
 target_link_libraries(JP2 JP2_Reader KakaduReaders)
 
 #
@@ -78,9 +78,9 @@ target_link_libraries(JP2 JP2_Reader KakaduReaders)
 add_subdirectory(Kakadu)
 
 # TODO currently unable to build these on windows, because the dependency includes "KDU-NOTFOUND" (???)
-#add_subdirectory(tests)
+add_subdirectory(tests)
 
 set(CMAKE_EXPORT_PACKAGE_REGISTRY ON)
 export(TARGETS JP2 JP2_Reader JP2_static JP2_Reader_static KakaduReaders KakaduReaders_static
-	NAMESPACE UA::HiRISE:: FILE JP2-config.cmake) #test_JP2_Reader test_JPIP_Connect
+ NAMESPACE UA::HiRISE:: FILE JP2-config.cmake) #test_JP2_Reader test_JPIP_Connect
 export(PACKAGE JP2)
