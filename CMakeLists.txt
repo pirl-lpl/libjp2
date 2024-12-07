@@ -19,7 +19,7 @@ endif()
 # for FindKakadu.cmake
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR})
 
-find_package(PIRL++ 3.0.0 REQUIRED)
+find_package(PIRL 3.0.0 REQUIRED)
 find_package(idaeim 2.3.4 REQUIRED)
 find_package(Kakadu REQUIRED)
 
@@ -36,8 +36,8 @@ add_library(objJP2_Reader OBJECT JP2_Metadata.cc JP2_Reader.cc JP2_Exception.cc)
 set_target_properties(objJP2 PROPERTIES POSITION_INDEPENDENT_CODE ON)
 set_target_properties(objJP2_Reader PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
-target_link_libraries(objJP2 JP2_Reader KDU KDU_AUX PIRL++::PIRL++)
-target_link_libraries(objJP2_Reader KDU KDU_AUX idaeim::PVL idaeim::Strings PIRL++::PIRL++)
+target_link_libraries(objJP2 JP2_Reader KDU KDU_AUX PIRL::PIRL++)
+target_link_libraries(objJP2_Reader KDU KDU_AUX idaeim::PVL idaeim::Strings PIRL::PIRL++)
 
 # TODO FIXME needed for MacOS??
 # include_directories()
@@ -61,7 +61,7 @@ else()
     set_target_properties(JP2_Reader_static PROPERTIES OUTPUT_NAME JP2_Reader)
 endif()
 
-target_link_libraries(JP2_Reader idaeim::PVL idaeim::Strings idaeim::Utility PIRL++::PIRL++)
+target_link_libraries(JP2_Reader idaeim::PVL idaeim::Strings idaeim::Utility PIRL::PIRL++)
 target_link_libraries(JP2 JP2_Reader KakaduReaders)
 
 #
