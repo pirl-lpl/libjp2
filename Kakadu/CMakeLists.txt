@@ -1,19 +1,16 @@
 
-add_library(objKakaduReaders OBJECT JP2_File_Reader.cc JP2_JPIP_Reader.cc JP2_Box.cc)
-set_target_properties(objKakaduReaders PROPERTIES POSITION_INDEPENDENT_CODE ON)
+add_library(KakaduReaders STATIC JP2_File_Reader.cc JP2_JPIP_Reader.cc JP2_Box.cc)
+set_target_properties(KakaduReaders PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
-add_library(KakaduReaders SHARED $<TARGET_OBJECTS:objKakaduReaders>)
-add_library(KakaduReaders_static STATIC $<TARGET_OBJECTS:objKakaduReaders>)
+#target_compile_definitions(KakaduReaders PRIVATE CORESYS_EXPORTS KDU_AUX_EXPORTS)
 
-#target_include_directories(KakaduReaders PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_SOURCE_DIR})
+target_include_directories(KakaduReaders PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/..)
 
-target_link_libraries(objKakaduReaders JP2_Reader KDU KDU_AUX PIRL::PIRL++ idaeim::PVL)
-target_link_libraries(KakaduReaders JP2_Reader KDU KDU_AUX PIRL::PIRL++ idaeim::PVL)
+#add_library(KakaduReaders SHARED $<TARGET_OBJECTS:objKakaduReaders>)
+#add_library(KakaduReaders_static STATIC $<TARGET_OBJECTS:objKakaduReaders>)
 
-if (WIN32)
-   set_target_properties(objKakaduReaders PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
+#target_include_directories(KakaduReaders_static PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/..)
 
-      target_link_options(KakaduReaders PRIVATE "/MANIFEST:NO")
+#target_link_libraries(objKakaduReaders JP2_Reader KDU KDU_AUX PIRL::PIRL++ idaeim::PVL)
+target_link_libraries(KakaduReaders JP2_Reader KDU PIRL::PIRL++ idaeim::PVL_static)
 
-   	#add_custom_command(TARGET KakaduReaders POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:KakaduReaders-static> KakaduReaders.lib)
-endif()

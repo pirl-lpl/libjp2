@@ -1,6 +1,6 @@
 #include <string>
 #include <iostream>
-using namespace std;
+using std::cout, std::cerr, std::endl, std::string;
 
 #include "JP2_Exception.hh"
 using namespace UA::HiRISE;

@@ -1,6 +1,8 @@
+set(CMAKE_FIND_LIBRARY_SUFFIXES .a .lib)
+
 set(KAKADU_VERSION 84)
 
-set(kdu_lib_path "${KAKADU_DIR}/lib/Linux-x86-64-gcc/" "${KAKADU_DIR}/lib/Mac-arm-64-gcc/" "${KAKADU_DIR}/lib/Mac-x86-64-gcc/" "${KAKADU_DIR}/../lib_x64/" "${KAKADU_DIR}/../lib_x86/")
+set(kdu_lib_path "${KAKADU_DIR}/lib/Linux-x86-64-gcc/" "${KAKADU_DIR}/lib/Mac-arm-64-gcc/" "${KAKADU_DIR}/lib/Mac-x86-64-gcc/" "${KAKADU_DIR}/../bin_x64/" "${KAKADU_DIR}/../bin_x86/")
 
 set(kdu_inc_path "${KAKADU_DIR}/managed/all_includes/")
 

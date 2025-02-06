@@ -1,0 +1,5 @@
+@PACKAGE_INIT@
+
+include("${CMAKE_CURRENT_LIST_DIR}/libJP2-exports.cmake")
+
+check_required_components(JP2 JP2_Reader KakaduReaders)
