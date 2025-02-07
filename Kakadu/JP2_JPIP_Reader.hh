@@ -31,6 +31,9 @@ Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA.
 #include	"kdu_client.h"
 //class kdu_window_prefs;
 
+#include <memory>
+using std::shared_ptr;
+
 #include	<vector>
 
 namespace UA

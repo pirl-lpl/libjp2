@@ -37,8 +37,7 @@ using std::ostringstream;
 using std::endl;
 #include	<stdexcept>
 using std::exception;
-#include <memory>
-using std::shared_ptr;
+
 
 #ifdef _WIN32
 #include "Windows.h"	//	For Sleep system function.
