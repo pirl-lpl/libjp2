@@ -2,8 +2,6 @@
 add_library(KakaduReaders STATIC JP2_File_Reader.cc JP2_JPIP_Reader.cc JP2_Box.cc)
 set_target_properties(KakaduReaders PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
-#target_compile_definitions(KakaduReaders PRIVATE CORESYS_EXPORTS KDU_AUX_EXPORTS)
-
 target_include_directories(KakaduReaders PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/..)
 
 #add_library(KakaduReaders SHARED $<TARGET_OBJECTS:objKakaduReaders>)

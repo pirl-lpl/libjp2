@@ -300,7 +300,7 @@ if (pixel_buffers)
 			band++)
 		{
 		//	Set Image_Data buffer pointer and Band_Map entries for the band.
-		if (Rendered_Bands[band] = (Image_Data[band] = pixel_buffers[band]))
+		if ((Rendered_Bands[band] = (Image_Data[band] = pixel_buffers[band])))
 			Rendered_Region.Depth++;	//	Accumulate the rendered bands count.
 		#if ((DEBUG) & DEBUG_ACCESSORS)
 		clog << "      " << band << " @ " << Image_Data[band] << endl;

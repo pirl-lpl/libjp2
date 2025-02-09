@@ -1077,7 +1077,7 @@ if (! Thread_Group &&
 	Thread_Group = new kdu_thread_env ();
 	Thread_Group->create ();	//	Owner thread.
 
-  for (auto
+  for (unsigned int
 			count = 1;
 			count < Thread_Count;
 			count++)
@@ -1499,7 +1499,7 @@ while (continue_rendering)
 		clog << "==> data_request for region " << region_section << endl;
 		#endif
 		try {data_request_status = data_request (&region_section);}
-		catch (JPIP_Exception except)
+		catch (JPIP_Exception& except)
 			{
 			if (Thread_Group)
 				Thread_Group->handle_exception (READER_ERROR);
@@ -1536,7 +1536,7 @@ while (continue_rendering)
 		clog << "--> " << ++acquisitions << " - data_acquisition" << endl;
 		#endif
 		try {data_acquisition_status = data_acquisition (&acquired_data);}
-		catch (JPIP_Exception except)
+		catch (JPIP_Exception& except)
 			{
 			if (Thread_Group)
 				Thread_Group->handle_exception (READER_ERROR);

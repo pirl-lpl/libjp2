@@ -1871,7 +1871,7 @@ if (! canceled)
 						throw JPIP_Exception (message.str (), ID);
 						}
 					}
-				catch (JPIP_Disconnected)
+				catch (JPIP_Disconnected&)
 					{in_progress = false;}
 				}
 			}
@@ -2027,7 +2027,7 @@ if (canceled)
 			throw JPIP_Exception (message.str (), ID);
 			}
 		}
-	catch (JPIP_Disconnected)
+	catch (JPIP_Disconnected&)
 		{in_progress = false;}
 
 	if (! in_progress)
