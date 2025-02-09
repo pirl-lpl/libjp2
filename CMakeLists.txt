@@ -44,15 +44,14 @@ set_target_properties(JP2 PROPERTIES POSITION_INDEPENDENT_CODE ${BUILD_SHARED_LI
 set_target_properties(JP2_Reader PROPERTIES POSITION_INDEPENDENT_CODE ${BUILD_SHARED_LIBS})
 
 if (WIN32)
-    set_target_properties(JP2 PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
-    set_target_properties(JP2_Reader PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
+    set_target_properties(JP2 PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ${BUILD_SHARED_LIBS})
+    set_target_properties(JP2_Reader PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ${BUILD_SHARED_LIBS})
 endif()
 
 target_link_libraries(JP2 JP2_Reader KDU KakaduReaders idaeim::PVL_static idaeim::Strings_static idaeim::Utility_static PIRL::PIRL++)
 target_link_libraries(JP2_Reader KDU KDU_AUX idaeim::PVL_static idaeim::Strings_static idaeim::Utility_static PIRL::PIRL++)
 
 add_subdirectory(Kakadu)
-#add_subdirectory(tests)
 
 add_executable(test_JPIP_Connect tests/test_JPIP_Connect.cc)
 add_executable(test_JP2_Reader tests/test_JP2_Reader.cc)
