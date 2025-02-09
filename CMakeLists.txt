@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.13)
 project(libJP2 VERSION 2.0.0 DESCRIPTION "Provides C++ JP2 interface with Kakadu implementation")
 
 # windows example from build dir
-# cmake --fresh -S ..\..\libjp2 -B . -DCMAKE_PREFIX_PATH=%HOMEPATH% -DKAKADU_DIR=%HOMEPATH%\hiview3\v8_4-00307L
+# cmake --fresh -S ..\..\libjp2 -B . -DCMAKE_PREFIX_PATH=%HOMEPATH% -DKAKADU_DIR=%HOMEPATH%\hiview3\v8_4-00307L -Wall -DBUILD_SHARED_LIBS=OFF
 # cmake --build . --config release
 # cmake --install . --prefix %HOMEPATH%
 set(CMAKE_CXX_STANDARD 17)
@@ -34,17 +34,22 @@ add_library(KDU_AUX STATIC IMPORTED)
 set_target_properties(KDU PROPERTIES IMPORTED_LOCATION ${kdu_lib} INTERFACE_INCLUDE_DIRECTORIES ${KAKADU_INCLUDE_DIRS})
 set_target_properties(KDU_AUX PROPERTIES IMPORTED_LOCATION ${kdu_aux} INTERFACE_INCLUDE_DIRECTORIES ${KAKADU_INCLUDE_DIRS})
 
-add_library(JP2 STATIC JP2.cc JP2_Utilities.cc JP2_Exception.cc) #
-add_library(JP2_Reader STATIC JP2_Metadata.cc JP2_Reader.cc JP2_Exception.cc)
+add_library(JP2 JP2.cc JP2_Utilities.cc JP2_Exception.cc)
+add_library(JP2_Reader JP2_Metadata.cc JP2_Reader.cc JP2_Exception.cc)
 
 target_include_directories(JP2 PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(JP2_Reader PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
-set_target_properties(JP2 PROPERTIES POSITION_INDEPENDENT_CODE ON)
-set_target_properties(JP2_Reader PROPERTIES POSITION_INDEPENDENT_CODE ON)
+set_target_properties(JP2 PROPERTIES POSITION_INDEPENDENT_CODE ${BUILD_SHARED_LIBS})
+set_target_properties(JP2_Reader PROPERTIES POSITION_INDEPENDENT_CODE ${BUILD_SHARED_LIBS})
+
+if (WIN32)
+    set_target_properties(JP2 PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
+    set_target_properties(JP2_Reader PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
+endif()
 
 target_link_libraries(JP2 JP2_Reader KDU KakaduReaders idaeim::PVL_static idaeim::Strings_static idaeim::Utility_static PIRL::PIRL++)
-target_link_libraries(JP2_Reader KDU KDU_AUX KakaduReaders idaeim::PVL_static idaeim::Strings_static idaeim::Utility_static PIRL::PIRL++)
+target_link_libraries(JP2_Reader KDU KDU_AUX idaeim::PVL_static idaeim::Strings_static idaeim::Utility_static PIRL::PIRL++)
 
 add_subdirectory(Kakadu)
 #add_subdirectory(tests)
