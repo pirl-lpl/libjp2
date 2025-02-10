@@ -8,6 +8,9 @@ project(libJP2 VERSION 2.0.0 DESCRIPTION "Provides C++ JP2 interface with Kakadu
 # cmake --install . --prefix %HOMEPATH%
 set(CMAKE_CXX_STANDARD 17)
 
+# Override this with -DBUILD_SHARED_LIBS=OFF
+option(BUILD_SHARED_LIBS "Build shared libraries by default" ON)
+
 # TODO this should come from the pirl++ import, i.e. ${CMAKE_INSTALL_INCLUDEDIR}
 if(APPLE)
     include_directories(/usr/local/include ${PROJECT_SOURCE_DIR})
