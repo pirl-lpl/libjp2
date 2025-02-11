@@ -249,7 +249,7 @@ clog << ">-< JP2_Reader @ " << (void*)this << endl
 
 
 
-JP2_Reader::~JP2_Reader ()
+JP2_Reader::~JP2_Reader () throw()
 {
 #if (DEBUG & DEBUG_CONSTRUCTORS)
 clog << ">>> ~JP2_Reader @ " << (void*)this << endl;
