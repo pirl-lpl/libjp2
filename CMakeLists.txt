@@ -37,7 +37,7 @@ add_library(KDU_AUX STATIC IMPORTED)
 set_target_properties(KDU PROPERTIES IMPORTED_LOCATION ${kdu_lib} INTERFACE_INCLUDE_DIRECTORIES ${KAKADU_INCLUDE_DIRS})
 set_target_properties(KDU_AUX PROPERTIES IMPORTED_LOCATION ${kdu_aux} INTERFACE_INCLUDE_DIRECTORIES ${KAKADU_INCLUDE_DIRS})
 
-add_library(JP2 JP2.cc JP2_Utilities.cc JP2_Exception.cc)
+add_library(JP2 JP2.cc JP2_Utilities.cc)
 add_library(JP2_Reader JP2_Metadata.cc JP2_Reader.cc JP2_Exception.cc)
 
 target_include_directories(JP2 PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
@@ -47,8 +47,8 @@ set_target_properties(JP2 PROPERTIES POSITION_INDEPENDENT_CODE ${BUILD_SHARED_LI
 set_target_properties(JP2_Reader PROPERTIES POSITION_INDEPENDENT_CODE ${BUILD_SHARED_LIBS})
 
 if (WIN32)
-    set_target_properties(JP2 PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ${BUILD_SHARED_LIBS})
-    set_target_properties(JP2_Reader PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ${BUILD_SHARED_LIBS})
+    set_target_properties(JP2 PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
+    set_target_properties(JP2_Reader PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
 endif()
 
 target_link_libraries(JP2 JP2_Reader KDU KakaduReaders idaeim::PVL_static idaeim::Strings_static idaeim::Utility_static PIRL::PIRL++)
