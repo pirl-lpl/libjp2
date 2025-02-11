@@ -40,6 +40,11 @@ set_target_properties(KDU_AUX PROPERTIES IMPORTED_LOCATION ${kdu_aux} INTERFACE_
 add_library(JP2 JP2.cc JP2_Utilities.cc)
 add_library(JP2_Reader JP2_Metadata.cc JP2_Reader.cc JP2_Exception.cc)
 
+set_target_properties(JP2 PROPERTIES PUBLIC_HEADER "JP2.hh;JP2_Utilities.hh")
+set_target_properties(JP2 PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION ${PROJECT_VERSION_MAJOR})
+set_target_properties(JP2_Reader PROPERTIES PUBLIC_HEADER "JP2_Metadata.hh;JP2_Reader.hh;JP2_Exception.hh")
+set_target_properties(JP2_Reader PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION ${PROJECT_VERSION_MAJOR})
+
 target_include_directories(JP2 PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(JP2_Reader PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
@@ -79,7 +84,7 @@ configure_package_config_file("${CMAKE_CURRENT_SOURCE_DIR}/Config.cmake.in"
   "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake"
   INSTALL_DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/cmake")
 
-install(TARGETS JP2 JP2_Reader KakaduReaders EXPORT ${PROJECT_NAME}-export
+install(TARGETS JP2 JP2_Reader EXPORT ${PROJECT_NAME}-export
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
